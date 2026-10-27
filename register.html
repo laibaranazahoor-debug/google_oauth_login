@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Register | AuthPortal{% endblock %}
+
+{% block styles %}
+<style>
+    .auth-card {
+        width: 100%; max-width: 420px; background: var(--bg-card);
+        border: 1px solid var(--border); border-radius: 16px; padding: 2rem;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+    .auth-title { font-size: 1.5rem; font-weight: 700; text-align: center; margin-bottom: 0.5rem; }
+    .auth-subtitle { text-align: center; color: var(--text-sub); font-size: 0.9rem; margin-bottom: 1.5rem; }
+    .form-group { margin-bottom: 1rem; }
+    .form-group label { display: block; font-size: 0.85rem; font-weight: 500; margin-bottom: 0.4rem; }
+    .form-group input {
+        width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border);
+        background: var(--bg-primary); color: var(--text-main); font-size: 0.95rem; outline: none;
+    }
+    .btn-primary {
+        width: 100%; padding: 0.75rem; border-radius: 8px; border: none;
+        background: var(--accent); color: white; font-weight: 600; cursor: pointer; margin-top: 0.5rem;
+    }
+    .alert-error { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; padding: 0.75rem; border-radius: 8px; font-size: 0.85rem; margin-bottom: 1rem; text-align: center; }
+    .switch-auth { text-align: center; margin-top: 1.5rem; font-size: 0.85rem; color: var(--text-sub); }
+    .switch-auth a { color: var(--accent); text-decoration: none; font-weight: 600; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="auth-card">
+    <h1 class="auth-title">Create Account</h1>
+    <p class="auth-subtitle">Sign up to get started</p>
+
+    {% if error %}
+    <div class="alert-error">{{ error }}</div>
+    {% endif %}
+
+    <form action="/register" method="post">
+        <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" required placeholder="John Doe">
+        </div>
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" required placeholder="name@company.com">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required placeholder="••••••••">
+        </div>
+        <div class="form-group">
+            <label for="confirm_password">Confirm Password</label>
+            <input type="password" id="confirm_password" name="confirm_password" required placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn-primary">Register</button>
+    </form>
+
+    <p class="switch-auth">Already have an account? <a href="/login">Login</a></p>
+</div>
+{% endblock %}

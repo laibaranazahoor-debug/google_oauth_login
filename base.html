@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark-midnight">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Secure Login App{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* 5 Light Themes */
+            &[data-theme="light-classic"] { --bg-primary: #f8fafc; --bg-card: #ffffff; --text-main: #0f172a; --text-sub: #64748b; --accent: #2563eb; --border: #e2e8f0; }
+            &[data-theme="light-emerald"] { --bg-primary: #f0fdf4; --bg-card: #ffffff; --text-main: #064e3b; --text-sub: #047857; --accent: #059669; --border: #a7f3d0; }
+            &[data-theme="light-sunset"] { --bg-primary: #fff7ed; --bg-card: #ffffff; --text-main: #7c2d12; --text-sub: #c2410c; --accent: #ea580c; --border: #ffedd5; }
+            &[data-theme="light-rose"] { --bg-primary: #fff1f2; --bg-card: #ffffff; --text-main: #881337; --text-sub: #be123c; --accent: #e11d48; --border: #ffe4e6; }
+            &[data-theme="light-cyber"] { --bg-primary: #f5f3ff; --bg-card: #ffffff; --text-main: #4c1d95; --text-sub: #6d28d9; --accent: #7c3aed; --border: #ddd6fe; }
+
+            /* 5 Dark Themes */
+            &[data-theme="dark-midnight"] { --bg-primary: #0f172a; --bg-card: #1e293b; --text-main: #f8fafc; --text-sub: #94a3b8; --accent: #3b82f6; --border: #334155; }
+            &[data-theme="dark-neon"] { --bg-primary: #050505; --bg-card: #121212; --text-main: #00ffcc; --text-sub: #00b386; --accent: #00ffcc; --border: #1f2937; }
+            &[data-theme="dark-dracula"] { --bg-primary: #282a36; --bg-card: #44475a; --text-main: #f8f8f2; --text-sub: #bd93f9; --accent: #ff79c6; --border: #6272a4; }
+            &[data-theme="dark-nordic"] { --bg-primary: #2e3440; --bg-card: #3b4252; --text-main: #eceff4; --text-sub: #d8dee9; --accent: #88c0d0; --border: #4c566a; }
+            &[data-theme="dark-crimson"] { --bg-primary: #180008; --bg-card: #2c0011; --text-main: #ffe6eb; --text-sub: #ff809b; --accent: #ff0055; --border: #4d001e; }
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease; }
+        body { background-color: var(--bg-primary); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; }
+        
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 2rem; background: var(--bg-card); border-bottom: 1px solid var(--border); }
+        .brand { font-size: 1.25rem; font-weight: 700; color: var(--accent); text-decoration: none; }
+        .theme-selector-container { display: flex; align-items: center; gap: 10px; }
+        .theme-select { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-primary); color: var(--text-main); font-size: 0.85rem; outline: none; cursor: pointer; }
+
+        main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        footer { text-align: center; padding: 1rem; border-top: 1px solid var(--border); font-size: 0.85rem; color: var(--text-sub); }
+    </style>
+    {% block styles %}{% endblock %}
+</head>
+<body>
+    <header class="navbar">
+        <a href="/" class="brand">✨ AuthPortal</a>
+        <div class="theme-selector-container">
+            <label for="themeSelect" style="font-size: 0.85rem; color: var(--text-sub);">Theme:</label>
+            <select id="themeSelect" class="theme-select" onchange="changeTheme(this.value)">
+                <optgroup label="Light Themes">
+                    <option value="light-classic">Classic Light</option>
+                    <option value="light-emerald">Emerald Green</option>
+                    <option value="light-sunset">Sunset Orange</option>
+                    <option value="light-rose">Rose Pink</option>
+                    <option value="light-cyber">Cyber Purple</option>
+                </optgroup>
+                <optgroup label="Dark Themes">
+                    <option value="dark-midnight" selected>Midnight Dark</option>
+                    <option value="dark-neon">Neon Cyber</option>
+                    <option value="dark-dracula">Dracula Dark</option>
+                    <option value="dark-nordic">Nordic Dark</option>
+                    <option value="dark-crimson">Crimson Red</option>
+                </optgroup>
+            </select>
+        </div>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        FastAPI & Modern OAuth System
+    </footer>
+
+    <script>
+        function changeTheme(themeName) {
+            document.documentElement.setAttribute('data-theme', themeName);
+            localStorage.setItem('user_selected_theme', themeName);
+        }
+
+        (function initTheme() {
+            const savedTheme = localStorage.getItem('user_selected_theme') || 'dark-midnight';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            const select = document.getElementById('themeSelect');
+            if (select) select.value = savedTheme;
+        })();
+    </script>
+</body>
+</html>
